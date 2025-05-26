@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - Digital Products Store</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">
+                <i class="fas fa-shopping-bag me-2"></i>
+                Digital Products Store
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="products.html">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About Us</a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link position-relative active" href="cart.html">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="badge bg-danger position-absolute top-0 start-100 translate-middle rounded-pill" id="cart-count">0</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="bg-primary text-white py-5" style="margin-top: 76px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="display-4 fw-bold mb-3">Shopping Cart</h1>
+                    <p class="lead">Review your selected products before completing your purchase</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Content -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Cart Header with Clear All Button -->
+                    <div class="d-flex justify-content-between align-items-center mb-4" id="cart-header" style="display: none !important;">
+                        <h4 class="fw-bold mb-0">
+                            <i class="fas fa-shopping-cart me-2 text-primary"></i>
+                            Your Cart Items
+                        </h4>
+                        <button class="btn btn-outline-danger" id="clear-cart-btn" onclick="clearAllCart()">
+                            <i class="fas fa-trash-alt me-2"></i>
+                            Clear All Items
+                        </button>
+                    </div>
+
+                    <!-- Cart Items -->
+                    <div id="cart-items">
+                        <!-- Cart items will be loaded here by JavaScript -->
+                    </div>
+
+                    <!-- Empty Cart Message -->
+                    <div class="text-center py-5 d-none" id="empty-cart">
+                        <i class="fas fa-shopping-cart fa-5x text-muted mb-4"></i>
+                        <h3>Your cart is empty</h3>
+                        <p class="text-muted mb-4">You haven't added any products to your cart yet</p>
+                        <a href="products.html" class="btn btn-primary btn-lg">Browse Products</a>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <!-- Order Summary -->
+                    <div class="order-summary" id="order-summary">
+                        <h5 class="fw-bold mb-3">Order Summary</h5>
+
+                        <div class="summary-item">
+                            <span>Subtotal:</span>
+                            <span id="subtotal">$0</span>
+                        </div>
+
+                        <div class="summary-item">
+                            <span>Tax (15%):</span>
+                            <span id="tax">$0</span>
+                        </div>
+
+                        <div class="summary-item">
+                            <span>Shipping:</span>
+                            <span class="text-success">Free</span>
+                        </div>
+
+                        <!-- Coupon Code -->
+                        <div class="mt-3 mb-3">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Coupon code" id="coupon-code">
+                                <button class="btn btn-outline-primary" type="button" id="apply-coupon">Apply</button>
+                            </div>
+                        </div>
+
+                        <div class="summary-item" id="discount-row" style="display: none;">
+                            <span>Discount:</span>
+                            <span class="text-success" id="discount">-$0</span>
+                        </div>
+
+                        <div class="summary-total">
+                            <span>Total:</span>
+                            <span id="total">$0</span>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-4">
+                            <a href="checkout.html" class="btn btn-success btn-lg" id="checkout-btn">
+                                <i class="fas fa-credit-card me-2"></i>
+                                Proceed to Checkout
+                            </a>
+                            <a href="products.html" class="btn btn-outline-primary">
+                                <i class="fas fa-arrow-left me-2"></i>
+                                Continue Shopping
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Security Features -->
+                    <div class="card mt-4">
+                        <div class="card-body text-center">
+                            <h6 class="fw-bold mb-3">Security & Protection</h6>
+                            <div class="row">
+                                <div class="col-4">
+                                    <i class="fas fa-shield-alt fa-2x text-success mb-2"></i>
+                                    <small class="d-block">Secure Payment</small>
+                                </div>
+                                <div class="col-4">
+                                    <i class="fas fa-lock fa-2x text-success mb-2"></i>
+                                    <small class="d-block">Data Protection</small>
+                                </div>
+                                <div class="col-4">
+                                    <i class="fas fa-download fa-2x text-success mb-2"></i>
+                                    <small class="d-block">Instant Download</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recommended Products -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="fw-bold mb-4 text-center">You might also like</h3>
+                </div>
+            </div>
+            <div class="row" id="recommended-products">
+                <!-- Recommended products will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter-section bg-primary text-white py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <div class="newsletter-content">
+                        <h3 class="fw-bold mb-3">
+                            <i class="fas fa-envelope-open me-3"></i>
+                            Subscribe to Newsletter
+                        </h3>
+                        <p class="mb-0">Get the latest products and exclusive offers directly in your email</p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <form class="newsletter-form">
+                        <div class="input-group input-group-lg">
+                            <input type="email" class="form-control" placeholder="Enter your email address" required>
+                            <button class="btn btn-warning fw-bold px-4" type="submit">
+                                <i class="fas fa-paper-plane me-2"></i>
+                                Subscribe Now
+                            </button>
+                        </div>
+                        <small class="text-white-50 mt-2 d-block">
+                            <i class="fas fa-shield-alt me-1"></i>
+                            We respect your privacy and won't send you spam
+                        </small>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-section">
+        <div class="footer-main bg-dark text-white py-5">
+            <div class="container">
+                <div class="row">
+                    <!-- Company Info -->
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="footer-widget">
+                            <div class="footer-logo mb-4">
+                                <h4 class="fw-bold text-white">
+                                    <i class="fas fa-shopping-bag me-2 text-primary"></i>
+                                    Digital Products Store
+                                </h4>
+                            </div>
+                            <p class="text-light mb-4">
+                                Your first store for high-quality digital products. We provide you with the best digital products
+                                from e-books, software and training courses at reasonable prices and exceptional quality.
+                            </p>
+                            <div class="footer-stats">
+                                <div class="row text-center">
+                                    <div class="col-4">
+                                        <div class="stat-item">
+                                            <div class="h5 fw-bold text-primary mb-1">500+</div>
+                                            <small class="text-muted">Products</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="stat-item">
+                                            <div class="h5 fw-bold text-primary mb-1">10K+</div>
+                                            <small class="text-muted">Customers</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="stat-item">
+                                            <div class="h5 fw-bold text-primary mb-1">4.9★</div>
+                                            <small class="text-muted">Rating</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Links -->
+                    <div class="col-lg-2 col-md-6 mb-4">
+                        <div class="footer-widget">
+                            <h6 class="footer-title fw-bold mb-4 text-white">Quick Links</h6>
+                            <ul class="footer-links list-unstyled">
+                                <li class="mb-2">
+                                    <a href="index.html" class="text-light text-decoration-none">
+                                        <i class="fas fa-home me-2"></i>Home
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="products.html" class="text-light text-decoration-none">
+                                        <i class="fas fa-shopping-bag me-2"></i>Products
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="about.html" class="text-light text-decoration-none">
+                                        <i class="fas fa-info-circle me-2"></i>About Us
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="cart.html" class="text-light text-decoration-none">
+                                        <i class="fas fa-shopping-cart me-2"></i>Cart
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Categories -->
+                    <div class="col-lg-2 col-md-6 mb-4">
+                        <div class="footer-widget">
+                            <h6 class="footer-title fw-bold mb-4 text-white">Categories</h6>
+                            <ul class="footer-links list-unstyled">
+                                <li class="mb-2">
+                                    <a href="products.html?category=ebooks" class="text-light text-decoration-none">
+                                        <i class="fas fa-book me-2"></i>E-Books
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="products.html?category=software" class="text-light text-decoration-none">
+                                        <i class="fas fa-laptop-code me-2"></i>Software
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="products.html?category=courses" class="text-light text-decoration-none">
+                                        <i class="fas fa-graduation-cap me-2"></i>Courses
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="products.html?category=templates" class="text-light text-decoration-none">
+                                        <i class="fas fa-palette me-2"></i>Templates
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Contact Info -->
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="footer-widget">
+                            <h6 class="footer-title fw-bold mb-4 text-white">Contact Us</h6>
+                            <div class="contact-info">
+                                <div class="contact-item d-flex align-items-center mb-3">
+                                    <div class="contact-icon me-3">
+                                        <i class="fas fa-envelope text-primary"></i>
+                                    </div>
+                                    <div class="contact-details">
+                                        <div class="text-light">info@digitalstore.com</div>
+                                        <small class="text-muted">Email us anytime</small>
+                                    </div>
+                                </div>
+                                <div class="contact-item d-flex align-items-center mb-3">
+                                    <div class="contact-icon me-3">
+                                        <i class="fas fa-phone text-primary"></i>
+                                    </div>
+                                    <div class="contact-details">
+                                        <div class="text-light">(+20) 1123994926</div>
+                                        <small class="text-muted">24/7 Support</small>
+                                    </div>
+                                </div>
+                                <div class="contact-item d-flex align-items-center mb-4">
+                                    <div class="contact-icon me-3">
+                                        <i class="fas fa-map-marker-alt text-primary"></i>
+                                    </div>
+                                    <div class="contact-details">
+                                        <div class="text-light">Cairo - Egypt</div>
+                                        <small class="text-muted">Egypt</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Social Media -->
+                            <div class="social-media">
+                                <h6 class="fw-bold mb-3 text-white">Follow Us</h6>
+                                <div class="social-links d-flex gap-2">
+                                    <a href="#" class="social-link facebook">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                    <a href="#" class="social-link twitter">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                    <a href="#" class="social-link instagram">
+                                        <i class="fab fa-instagram"></i>
+                                    </a>
+                                    <a href="#" class="social-link linkedin">
+                                        <i class="fab fa-linkedin-in"></i>
+                                    </a>
+                                    <a href="#" class="social-link youtube">
+                                        <i class="fab fa-youtube"></i>
+                                    </a>
+                                    <a href="#" class="social-link whatsapp">
+                                        <i class="fab fa-whatsapp"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom py-4">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 mb-3 mb-lg-0">
+                        <div class="copyright text-center text-lg-start">
+                            <p class="mb-0">
+                                &copy; 2025 <span class="text-primary fw-bold">ZyadOsama98</span>.
+                                All rights reserved.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="footer-links-bottom text-center text-lg-end">
+                            <a href="#" class="me-3">Privacy Policy</a>
+                            <a href="#" class="me-3">Terms of Use</a>
+                            <a href="#">Refund Policy</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Footer Info -->
+                <div class="row mt-3 pt-3" style="border-top: 1px solid #333;">
+                    <div class="col-12 text-center">
+                        <div class="footer-badges d-flex justify-content-center align-items-center gap-4 flex-wrap">
+                            <div class="badge-item d-flex align-items-center">
+                                <i class="fas fa-shield-alt text-success me-2"></i>
+                                <span class="text-light small">100% Secure Payment</span>
+                            </div>
+                            <div class="badge-item d-flex align-items-center">
+                                <i class="fas fa-download text-primary me-2"></i>
+                                <span class="text-light small">Instant Download</span>
+                            </div>
+                            <div class="badge-item d-flex align-items-center">
+                                <i class="fas fa-headset text-warning me-2"></i>
+                                <span class="text-light small">24/7 Support</span>
+                            </div>
+                            <div class="badge-item d-flex align-items-center">
+                                <i class="fas fa-star text-warning me-2"></i>
+                                <span class="text-light small">Excellent Rating</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="js/main.js"></script>
+    <script src="js/cart.js"></script>
+</body>
+</html>
